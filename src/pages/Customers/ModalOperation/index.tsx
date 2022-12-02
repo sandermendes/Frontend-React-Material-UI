@@ -1,12 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, TextField, Typography} from '@mui/material';
 
 import {IModalOperationProps, IUser} from './@types';
 import * as S from './styles';
 import Modal from '../../../components/Modal';
 
-function ModalOperation ({ open, handleClose, handleFormData }: IModalOperationProps) {
+function ModalOperation ({ operation, open, handleClose, handleFormData, data }: IModalOperationProps) {
   const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    if (operation === 'edit' && data?.user) {
+      setUser(data?.user);
+    }
+  }, [data]);
+
   const handleSubmit = (element: React.FormEvent<HTMLFormElement>) => {
     element.preventDefault();
     const target = element.target as typeof element.target & {
@@ -33,7 +40,7 @@ function ModalOperation ({ open, handleClose, handleFormData }: IModalOperationP
     <Modal open={open} name="Add">
       <S.Root>
         <Typography variant="h5" style={{ marginBottom: 10 }}>
-          Add Customer
+          { operation === 'add' ? 'Add' : 'Edit'} Customer
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container direction="column" justifyContent="space-between">

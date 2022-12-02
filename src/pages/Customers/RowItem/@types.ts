@@ -7,4 +7,6 @@ export interface IRowItemProps {
   email: string;
   divider: boolean;
   handleChange: (element: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEditClick: (id: number) => void;
+  handleDeleteClick: (id: number) => void;
 }

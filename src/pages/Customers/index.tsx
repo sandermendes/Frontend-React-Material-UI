@@ -8,16 +8,22 @@ import {CustomerServices} from '../../services/customer';
 import Header from './Header';
 import RowItem from './RowItem';
 import Loading from '../../components/Loading';
-import {ModalOperation as ModalAdd} from './ModalOperation';
+import {ModalOperation as ModalAdd, ModalOperation as ModalEdit} from './ModalOperation';
 import {IUser} from './ModalOperation/@types';
+import Dialog from '../../components/Dialog';
 
 function Customers() {
   const [showScreen, setShowScreen] = useState(false);
+
   const [marked, setMarked] = useState<number[]>([]);
   const [multiplesSelected, setMultiplesSelected] = useState<boolean>(false);
-  const [modalAddOpen, setModalAddOpen] = useState(false);
 
-  const { isLoading: isLoadingCustomers, data } = useQuery('CustomersData', () => CustomerServices.getCustomersData());
+  const [modalAddOpen, setModalAddOpen] = useState(false);
+  const [modalEditOpen, setModalEditOpen] = useState(false);
+
+  const [selectedUser, setSelectedUser] = useState<IUser>();
+
+  const { isLoading: isLoadingCustomers, data: dataCustomers } = useQuery('CustomersData', () => CustomerServices.getCustomersData());
 
   useEffect(() => {
     setMultiplesSelected(marked.length > 0);
@@ -31,11 +37,26 @@ function Customers() {
     }
   }, [isLoadingCustomers]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMarkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked)
       setMarked([...marked, +event.target.value]);
     else
       setMarked([...marked.filter((mark) => (mark !== +event.target.value))]);
+  };
+
+  useEffect(() => {
+    if (selectedUser) {
+      setModalEditOpen(true);
+    }
+  }, [selectedUser]);
+
+  const handleEditItemClick = async (id: number) => {
+    const customer = await CustomerServices.getCustomerData(id);
+    setSelectedUser(customer);
+  };
+
+  const handleDeleteItemClick = (id: number) => {
+    console.log('handleDeleteItemClick - id', id);
   };
 
   const handleHeaderDelete = () => {
@@ -48,9 +69,14 @@ function Customers() {
 
   const handleClose = () => {
     setModalAddOpen(false);
+    setModalEditOpen(false);
   };
 
-  const handleFormData = (user: IUser) => {
+  const handleFormAddData = (user: IUser) => {
+    console.log('user', user);
+  };
+
+  const handleFormEditData = (user: IUser) => {
     console.log('user', user);
   };
 
@@ -62,8 +88,15 @@ function Customers() {
           <S.CustomDivider />
           {showScreen ?
             <List>
-              {data?.map((customer, index) => (
-                <RowItem key={index} { ...customer } divider={data?.length - 1 > index} handleChange={handleChange} />
+              {dataCustomers?.map((customer, index) => (
+                <RowItem
+                  key={index}
+                  { ...customer }
+                  divider={dataCustomers?.length - 1 > index}
+                  handleChange={handleMarkChange}
+                  handleEditClick={handleEditItemClick}
+                  handleDeleteClick={handleDeleteItemClick}
+                />
               ))}
             </List> : <Loading />
           }
@@ -71,7 +104,9 @@ function Customers() {
             <AddIcon />
           </S.FabAdd>
         </S.ContainerPaper>
-        <ModalAdd open={modalAddOpen} handleClose={handleClose} handleFormData={handleFormData} />
+        <ModalAdd operation="add" open={modalAddOpen} handleClose={handleClose} handleFormData={handleFormAddData} />
+        <ModalEdit operation="edit" open={modalEditOpen} data={{ user: selectedUser }} handleClose={handleClose} handleFormData={handleFormEditData} />
+        <Dialog text={`Do you want delete customer: ID ${0} - Name: ${'Name'}`} />
       </S.MainGrid>
     </S.RootDiv>
   );

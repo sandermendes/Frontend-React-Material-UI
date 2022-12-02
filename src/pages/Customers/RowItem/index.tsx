@@ -28,10 +28,10 @@ function RowItem(props: IRowItemProps) {
           </Grid>
           <Grid item xs={2} md={1}>
             <ListItemSecondaryAction>
-              <IconButton aria-label="edit" size="large">
+              <IconButton aria-label="edit" size="large" onClick={() => props.handleEditClick(props.id)}>
                 <CreateIcon />
               </IconButton>
-              <IconButton aria-label="edit" size="large">
+              <IconButton aria-label="delete" size="large" onClick={() => props.handleDeleteClick(props.id)}>
                 <DeleteIcon color="secondary" />
               </IconButton>
             </ListItemSecondaryAction>

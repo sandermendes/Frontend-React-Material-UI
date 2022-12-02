@@ -29,4 +29,10 @@ export const CustomerServices = {
     // const response = await axios.get(`${API_VERSION_V1}/customers`);
     // return response.data;
   },
+
+  getCustomerData: async (id: number) => {
+    return CUSTOMERS_DATA.filter((customer) => customer.id === id)[0];
+    // const response = await axios.get(`${API_VERSION_V1}/customers/${id}`);
+    // return response.data;
+  },
 };
