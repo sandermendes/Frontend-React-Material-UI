@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { List } from '@mui/material';
-import {Add as AddIcon} from '@mui/icons-material';
-import {useQuery} from 'react-query';
+import { Add as AddIcon } from '@mui/icons-material';
+import { useQuery } from 'react-query';
 
 import * as S from './styles';
 import { CustomerServices } from '../../services/customer';
@@ -34,13 +34,15 @@ function Customers() {
   }, [marked]);
 
   useEffect(() => {
-    console.log('isLoadingCustomers', isLoadingCustomers);
-    console.log('dataCustomers', dataCustomers);
     if (!isLoadingCustomers) {
-      setTimeout(() => {
-        setCustomers(dataCustomers);
-        setShowScreen(true);
-      }, 2000);
+      setShowScreen(false);
+      if (dataCustomers) {
+        setTimeout(() => {
+          setMarked([]);
+          setCustomers(dataCustomers);
+          setShowScreen(true);
+        }, 2000);
+      }
     }
   }, [isLoadingCustomers, dataCustomers]);
 
@@ -59,26 +61,36 @@ function Customers() {
     setModalDialogDeleteSelected(true);
   };
 
-  const confirmResponseDeleteAll = (confirm: boolean) => {
-    console.log('confirmResponseDeleteAll - confirm', confirm);
+  const confirmResponseDeleteAll = async (confirm: boolean) => {
+    if (confirm) {
+      for (const id of marked) {
+        await CustomerServices.deleteCustomer(id);
+      }
+      await refetchCustomers();
+    }
     setModalDialogDeleteSelected(false);
-    // if (confirm) {
-    // }
   };
 
   const handleClose = () => {
     setModalAddOpen(false);
-    // setSelectedUser(null);
-    // setModalEditOpen(false);
   };
 
-  const handleFormAddData = (id: number, user: IUser) => {
-    console.log('handleFormAddData - user', user);
+  const handleFormAddData = async (id: number, user: IUser) => {
+    await CustomerServices.createCustomer(user);
+    await refetchCustomers();
+    setModalAddOpen(false);
+    setMarked([]);
   };
 
   const handleFormEditData = async (id: number, user: IUser) => {
     await CustomerServices.updateCustomer(id, user);
     await refetchCustomers();
+    setMarked([]);
+  };
+
+  const handleRefresh = async () => {
+    await refetchCustomers();
+    setMarked([]);
   };
 
   return (
@@ -96,6 +108,7 @@ function Customers() {
                   divider={customers?.length - 1 > index}
                   handleChange={handleMarkChange}
                   handleFormData={handleFormEditData}
+                  handleRefresh={handleRefresh}
                 />
               ))}
             </List> : <Loading />
@@ -107,7 +120,7 @@ function Customers() {
         <ModalAdd
           operation="add"
           open={modalAddOpen}
-          data={{ user: { id: 0, firstName: '', lastName: '', email: '' } }}
+          data={{ user: { id: 0, firstName: '', lastName: '', email: '', password: '' } }}
           handleClose={handleClose}
           handleFormData={handleFormAddData}
         />

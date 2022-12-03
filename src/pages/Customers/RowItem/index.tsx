@@ -26,12 +26,8 @@ function RowItem(props: IRowItemProps) {
   };
 
   const dialogDeleteItemResponse = async (confirm: boolean, id: number) => {
-    console.log('RowItem - handleDeleteItemClick - confirm', confirm);
-    console.log('RowItem - handleDeleteItemClick - id', id);
     if (confirm) {
-      const customerData = await CustomerServices.deleteCustomer(id);
-      console.log('dialogDeleteItemResponse - customerData', customerData);
-      // setSelectedUser(customerData);
+      await CustomerServices.deleteCustomer(id);
     }
   };
 
@@ -61,7 +57,7 @@ function RowItem(props: IRowItemProps) {
                 aria-label="edit"
                 size="large"
                 onClick={async () => {
-                  await handleEditItemClick(selectedUser.id as number);
+                  await handleEditItemClick(selectedUser.id);
                   setModalEditOpen(true);
                 }}>
                 <CreateIcon />
@@ -77,6 +73,7 @@ function RowItem(props: IRowItemProps) {
         </Grid>
       </S.ListItemRoot>
       {props.divider ? <Divider /> : ''}
+
       <ModalEdit
         operation="edit"
         open={modalEditOpen}
@@ -86,11 +83,13 @@ function RowItem(props: IRowItemProps) {
           props.handleFormData(id, formData);
           setModalEditOpen(false);
         }} />
+
       <DialogDeleteItem
         open={modalDialogDeleteItem}
         text={`Are you sure to delete customer id: ${selectedUser.id} - Name: ${selectedUser.firstName}?`}
         dialogResponse={async (confirm) => {
           await dialogDeleteItemResponse(confirm, selectedUser.id ?? 0);
+          props.handleRefresh();
           setModalDialogDeleteItem(false);
         }}/>
     </>

@@ -6,4 +6,5 @@ export interface IRowItemProps {
   divider: boolean;
   handleChange: (element: React.ChangeEvent<HTMLInputElement>) => void;
   handleFormData: (id: number, formData: IUser) => void;
+  handleRefresh: () => void;
 }

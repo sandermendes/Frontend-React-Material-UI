@@ -5,18 +5,22 @@ import {IModalOperationProps, IUser} from './@types';
 import * as S from './styles';
 import Modal from '../../../components/Modal';
 
+const userInitial = {
+  id: 0,
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+};
+
 function ModalOperation ({ operation, open, handleClose, handleFormData, data }: IModalOperationProps) {
-  const [user, setUser] = useState<IUser>(data.user);
+  const [user, setUser] = useState<IUser>({ ...data.user, password: '' });
 
   useEffect(() => {
     if (operation === 'edit' && data.user) {
       setUser(data.user);
     }
   }, [data]);
-
-  useEffect(() => {
-    console.log('ModalOperation - user', user);
-  }, [user]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -47,6 +51,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
     };
 
     handleFormData(formUser.id, formUser);
+    setUser(userInitial);
   };
   return (
     <Modal open={open} name="Add">
@@ -63,7 +68,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
                     type="text"
                     label="First Name"
                     name="firstName"
-                    value={user?.firstName}
+                    value={user.firstName}
                     onChange={handleChange}
                     variant="outlined"
                     style={{ width: '100%' }}
@@ -74,7 +79,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
                     type="text"
                     label="Last Name"
                     name="lastName"
-                    value={user?.lastName}
+                    value={user.lastName}
                     onChange={handleChange}
                     variant="outlined"
                     style={{ width: '100%' }}
@@ -87,7 +92,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
                 type="text"
                 label="Email"
                 name="email"
-                value={user?.email}
+                value={user.email}
                 onChange={handleChange}
                 variant="outlined"
                 style={{ width: '100%' }}
@@ -98,7 +103,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
                 type="password"
                 label="Password"
                 name="password"
-                value={user?.password}
+                value={user.password}
                 onChange={handleChange}
                 variant="outlined"
                 style={{ width: '100%' }}
@@ -110,7 +115,10 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
               <Button variant="contained" type="submit">Confirmar</Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" onClick={handleClose}>Cancelar</Button>
+              <Button variant="outlined" onClick={(event) => {
+                setUser(userInitial);
+                handleClose(event);
+              }}>Cancelar</Button>
             </Grid>
           </Grid>
         </form>
