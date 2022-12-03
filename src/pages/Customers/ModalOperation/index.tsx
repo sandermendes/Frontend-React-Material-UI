@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid, TextField, Typography} from '@mui/material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 
-import {IModalOperationProps, IUser} from './@types';
-import * as S from './styles';
 import Modal from '../../../components/Modal';
+import * as S from './styles';
+import { IModalOperationProps, IUser } from './@types';
 
 const userInitial = {
   id: 0,
@@ -62,8 +62,8 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
         <form onSubmit={handleSubmit}>
           <Grid container direction="column" justifyContent="space-between">
             <Grid item>
-              <Grid container direction="row" style={{ marginBottom: 10 }}>
-                <Grid item md={6} style={{ paddingRight: 10 }}>
+              <Grid container direction={{ xs: 'row', sm: 'row' }} justifyContent="space-between" style={{ marginBottom: 10 }}>
+                <Grid item xs={12} md={6} style={{ paddingRight: 10 }}>
                   <TextField
                     type="text"
                     label="First Name"
@@ -74,7 +74,7 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
                     style={{ width: '100%' }}
                   />
                 </Grid>
-                <Grid item md={6} style={{ paddingLeft: 10 }}>
+                <Grid item xs={12} md={6} style={{ paddingLeft: 10 }}>
                   <TextField
                     type="text"
                     label="Last Name"

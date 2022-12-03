@@ -3,11 +3,11 @@ import { List } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { useQuery } from 'react-query';
 
-import * as S from './styles';
-import { CustomerServices } from '../../services/customer';
 import Header from './Header';
 import RowItem from './RowItem';
 import Loading from '../../components/Loading';
+import * as S from './styles';
+import { CustomerServices } from '../../services/customer';
 import { ModalOperation as ModalAdd } from './ModalOperation';
 import { IUser } from './ModalOperation/@types';
 import { DialogOperation as DialogDeleteSelected } from './DialogOperation';
@@ -117,6 +117,7 @@ function Customers() {
             <AddIcon />
           </S.FabAdd>
         </S.ContainerPaper>
+
         <ModalAdd
           operation="add"
           open={modalAddOpen}
@@ -124,6 +125,7 @@ function Customers() {
           handleClose={handleClose}
           handleFormData={handleFormAddData}
         />
+
         <DialogDeleteSelected
           open={modalDialogDeleteSelected}
           text="Do you want delete all selected customer?"

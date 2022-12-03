@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import {IUser} from '../pages/Customers/ModalOperation/@types';
-import {API_VERSION_V1} from './constants';
+import { IUser } from '../pages/Customers/ModalOperation/@types';
+import { API_VERSION_V1 } from './constants';
 
 export const CustomerServices = {
   getCustomersData: async () => {

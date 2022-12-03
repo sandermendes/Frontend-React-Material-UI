@@ -1,7 +1,11 @@
-import {styled} from '@mui/material';
+import { styled } from '@mui/material';
 
-export const Root = styled('div')(() => ({
+export const Root = styled('div')(({ theme }) => ({
   padding: 20,
   width: 600,
   minHeight: 400,
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    height: '100%',
+  },
 }));

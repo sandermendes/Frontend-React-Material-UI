@@ -1,5 +1,6 @@
 import React from 'react';
-import {IUser} from '../ModalOperation/@types';
+
+import { IUser } from '../ModalOperation/@types';
 
 export interface IRowItemProps {
   data: { user: IUser };

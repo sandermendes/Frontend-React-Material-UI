@@ -1,8 +1,8 @@
 import React from 'react';
-import {Grid, IconButton, Typography} from '@mui/material';
-import {Delete as DeleteIcon} from '@mui/icons-material';
+import { Grid, IconButton, Typography } from '@mui/material';
+import { Delete as DeleteIcon } from '@mui/icons-material';
 
-import {IHeaderProps} from './@types';
+import { IHeaderProps } from './@types';
 
 function Header(props: IHeaderProps) {
   return (

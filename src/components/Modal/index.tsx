@@ -1,15 +1,15 @@
 import React from 'react';
-import {Modal as MuiModal, Paper} from '@mui/material';
+import { Modal as MuiModal } from '@mui/material';
 
-import {IModalProps} from './@types';
+import { IModalProps } from './@types';
 import * as S from './styles';
 
 function Modal(props: IModalProps) {
   return (
     <MuiModal open={props.open} aria-labelledby={`${props.name}-title`} aria-describedby={`${props.name}-description`}>
-      <Paper sx={{ ...S.style }}>
+      <S.ModalPaper>
         {props.children}
-      </Paper>
+      </S.ModalPaper>
     </MuiModal>
   );
 }

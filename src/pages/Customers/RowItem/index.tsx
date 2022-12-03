@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Avatar, Checkbox, Divider, Grid, IconButton, ListItemAvatar, ListItemSecondaryAction, ListItemText} from '@mui/material';
-import {Create as CreateIcon, Delete as DeleteIcon} from '@mui/icons-material';
+import { Avatar, Checkbox, Divider, Grid, IconButton, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import { Create as CreateIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
 import * as S from '../styles';
 import { IRowItemProps } from './@types';

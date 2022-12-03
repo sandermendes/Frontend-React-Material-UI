@@ -1,5 +1,6 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes as MainRoutes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes as MainRoutes } from 'react-router-dom';
+
 import Customers from '../pages/Customers';
 
 function Routes() {
