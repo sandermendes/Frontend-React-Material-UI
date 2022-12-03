@@ -82,8 +82,8 @@ function RowItem(props: IRowItemProps) {
         open={modalEditOpen}
         data={{ user: selectedUser }}
         handleClose={handleClose}
-        handleFormData={(formData) => {
-          props.handleFormData(formData);
+        handleFormData={(id, formData) => {
+          props.handleFormData(id, formData);
           setModalEditOpen(false);
         }} />
       <DialogDeleteItem

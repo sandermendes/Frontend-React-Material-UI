@@ -6,13 +6,23 @@ import * as S from './styles';
 import Modal from '../../../components/Modal';
 
 function ModalOperation ({ operation, open, handleClose, handleFormData, data }: IModalOperationProps) {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser>(data.user);
 
   useEffect(() => {
-    if (operation === 'edit' && data?.user) {
-      setUser(data?.user);
+    if (operation === 'edit' && data.user) {
+      setUser(data.user);
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log('ModalOperation - user', user);
+  }, [user]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
 
   const handleSubmit = (element: React.FormEvent<HTMLFormElement>) => {
     element.preventDefault();
@@ -28,13 +38,15 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
     const email = target.email.value;
     const password = target.password.value;
 
-    const formUse = {
+    const formUser = {
+      id: operation === 'add' ? 0 : user.id,
       firstName,
       lastName,
       email,
       password,
     };
-    handleFormData(formUse);
+
+    handleFormData(formUser.id, formUser);
   };
   return (
     <Modal open={open} name="Add">
@@ -47,18 +59,50 @@ function ModalOperation ({ operation, open, handleClose, handleFormData, data }:
             <Grid item>
               <Grid container direction="row" style={{ marginBottom: 10 }}>
                 <Grid item md={6} style={{ paddingRight: 10 }}>
-                  <TextField type="text" name="firstName" value={user?.firstName} label="First Name" variant="outlined" style={{ width: '100%' }} />
+                  <TextField
+                    type="text"
+                    label="First Name"
+                    name="firstName"
+                    value={user?.firstName}
+                    onChange={handleChange}
+                    variant="outlined"
+                    style={{ width: '100%' }}
+                  />
                 </Grid>
                 <Grid item md={6} style={{ paddingLeft: 10 }}>
-                  <TextField type="text" name="lastName" value={user?.lastName} label="Last Name" variant="outlined" style={{ width: '100%' }} />
+                  <TextField
+                    type="text"
+                    label="Last Name"
+                    name="lastName"
+                    value={user?.lastName}
+                    onChange={handleChange}
+                    variant="outlined"
+                    style={{ width: '100%' }}
+                  />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item md={12} style={{ marginBottom: 10 }}>
-              <TextField type="text" name="email" value={user?.email} label="Email" variant="outlined" style={{ width: '100%' }} />
+              <TextField
+                type="text"
+                label="Email"
+                name="email"
+                value={user?.email}
+                onChange={handleChange}
+                variant="outlined"
+                style={{ width: '100%' }}
+              />
             </Grid>
             <Grid item md={12} style={{ marginBottom: 10 }}>
-              <TextField type="password" name="password" value={user?.password} label="Password" variant="outlined" style={{ width: '100%' }} />
+              <TextField
+                type="password"
+                label="Password"
+                name="password"
+                value={user?.password}
+                onChange={handleChange}
+                variant="outlined"
+                style={{ width: '100%' }}
+              />
             </Grid>
           </Grid>
           <Grid container direction="row" justifyContent="right">

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface IUser {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -11,7 +11,7 @@ export interface IUser {
 export interface IModalOperationProps {
   operation: 'add' | 'edit'
   open: boolean;
-  data?: { user?: IUser | null },
+  data: { user: IUser },
   handleClose: (click: React.MouseEvent) => void;
-  handleFormData: (formData: IUser) => void;
+  handleFormData: (id: number, formData: IUser) => void;
 }

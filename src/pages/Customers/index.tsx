@@ -14,7 +14,6 @@ import { DialogOperation as DialogDeleteSelected } from './DialogOperation';
 
 function Customers() {
   const [customers, setCustomers] = useState<IUser[] | null>();
-  // const [selectedUser, setSelectedUser] = useState<IUser | null>();
 
   const [showScreen, setShowScreen] = useState(false);
 
@@ -48,7 +47,7 @@ function Customers() {
   };
 
   const handleHeaderAdd = () => {
-    setModalAddOpen(!modalAddOpen);
+    setModalAddOpen(true);
   };
 
   const handleHeaderDelete = () => {
@@ -68,11 +67,14 @@ function Customers() {
     // setModalEditOpen(false);
   };
 
-  const handleFormAddData = (user: IUser) => {
+  const handleFormAddData = (id: number, user: IUser) => {
     console.log('handleFormAddData - user', user);
   };
 
-  const handleFormEditData = (user: IUser) => {
+  const handleFormEditData = async (id: number, user: IUser) => {
+    const customerUpdate = await CustomerServices.updateCustomer(id, user);
+    console.log('Customers - handleFormEditData - customerUpdate', customerUpdate);
+    console.log('Customers - handleFormEditData - id', id);
     console.log('Customers - handleFormEditData - user', user);
   };
 
@@ -102,6 +104,7 @@ function Customers() {
         <ModalAdd
           operation="add"
           open={modalAddOpen}
+          data={{ user: { id: 0, firstName: '', lastName: '', email: '' } }}
           handleClose={handleClose}
           handleFormData={handleFormAddData}
         />
