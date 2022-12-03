@@ -24,20 +24,25 @@ function Customers() {
 
   const [modalDialogDeleteSelected, setModalDialogDeleteSelected] = useState(false);
 
-  const { isLoading: isLoadingCustomers, data: dataCustomers } = useQuery('CustomersData', () => CustomerServices.getCustomersData());
+  const { isLoading: isLoadingCustomers, data: dataCustomers, refetch: refetchCustomers } = useQuery(
+    'CustomersData',
+    () => CustomerServices.getCustomersData(),
+    { refetchOnWindowFocus: false });
 
   useEffect(() => {
     setMultiplesSelected(marked.length > 0);
   }, [marked]);
 
   useEffect(() => {
+    console.log('isLoadingCustomers', isLoadingCustomers);
+    console.log('dataCustomers', dataCustomers);
     if (!isLoadingCustomers) {
       setTimeout(() => {
         setCustomers(dataCustomers);
         setShowScreen(true);
       }, 2000);
     }
-  }, [isLoadingCustomers]);
+  }, [isLoadingCustomers, dataCustomers]);
 
   const handleMarkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked)
@@ -72,10 +77,8 @@ function Customers() {
   };
 
   const handleFormEditData = async (id: number, user: IUser) => {
-    const customerUpdate = await CustomerServices.updateCustomer(id, user);
-    console.log('Customers - handleFormEditData - customerUpdate', customerUpdate);
-    console.log('Customers - handleFormEditData - id', id);
-    console.log('Customers - handleFormEditData - user', user);
+    await CustomerServices.updateCustomer(id, user);
+    await refetchCustomers();
   };
 
   return (
