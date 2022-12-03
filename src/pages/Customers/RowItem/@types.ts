@@ -1,12 +1,9 @@
 import React from 'react';
+import {IUser} from '../ModalOperation/@types';
 
 export interface IRowItemProps {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  data: { user: IUser };
   divider: boolean;
   handleChange: (element: React.ChangeEvent<HTMLInputElement>) => void;
-  handleEditClick: (id: number) => void;
-  handleDeleteClick: (id: number) => void;
+  handleFormData: (formData: IUser) => void;
 }
