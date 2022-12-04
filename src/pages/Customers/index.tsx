@@ -101,17 +101,21 @@ function Customers() {
           <S.CustomDivider />
           {showScreen ?
             <List>
-              {customers?.map((customer, index) => (
-                <RowItem
-                  key={index}
-                  data={{ user: customer }}
-                  divider={customers?.length - 1 > index}
-                  handleChange={handleMarkChange}
-                  handleFormData={handleFormEditData}
-                  handleRefresh={handleRefresh}
-                />
-              ))}
-            </List> : <Loading />
+              {customers ?
+                customers.map((customer, index) => (
+                  <RowItem
+                    key={index}
+                    data={{ user: customer }}
+                    divider={customers?.length - 1 > index}
+                    handleChange={handleMarkChange}
+                    handleFormData={handleFormEditData}
+                    handleRefresh={handleRefresh}
+                  />
+                )) :
+                <>No customers found!</>}
+            </List> :
+
+            <Loading />
           }
           <S.FabAdd color="primary" onClick={handleHeaderAdd}>
             <AddIcon />
