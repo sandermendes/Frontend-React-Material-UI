@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import { List } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
 import { useQuery } from 'react-query';
 
 import Header from './Header';
@@ -11,6 +10,7 @@ import { CustomerServices } from '../../services/customer';
 import { ModalOperation as ModalAdd } from './ModalOperation';
 import { IUser } from './ModalOperation/@types';
 import { DialogOperation as DialogDeleteSelected } from './DialogOperation';
+import NoData from '../../components/NoData';
 
 function Customers() {
   const [customers, setCustomers] = useState<IUser[] | null>();
@@ -97,29 +97,26 @@ function Customers() {
     <S.RootDiv>
       <S.MainGrid container item xs={12}>
         <S.ContainerPaper>
-          <Header multiplesSelected={multiplesSelected} handleChange={handleHeaderDelete} />
+          <Header multiplesSelected={multiplesSelected} handleAdd={handleHeaderAdd} handleDelete={handleHeaderDelete} />
           <S.CustomDivider />
           {showScreen ?
             <List>
-              {customers ?
-                customers.map((customer, index) => (
-                  <RowItem
-                    key={index}
-                    data={{ user: customer }}
-                    divider={customers?.length - 1 > index}
-                    handleChange={handleMarkChange}
-                    handleFormData={handleFormEditData}
-                    handleRefresh={handleRefresh}
-                  />
-                )) :
-                <>No customers found!</>}
+              {customers ? customers.map((customer, index) => (
+                <RowItem
+                  key={index}
+                  data={{ user: customer }}
+                  divider={customers?.length - 1 > index}
+                  handleChange={handleMarkChange}
+                  handleFormData={handleFormEditData}
+                  handleRefresh={handleRefresh}
+                />
+              )) :
+                <NoData />
+              }
             </List> :
 
             <Loading />
           }
-          <S.FabAdd color="primary" onClick={handleHeaderAdd}>
-            <AddIcon />
-          </S.FabAdd>
         </S.ContainerPaper>
 
         <ModalAdd

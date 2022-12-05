@@ -1,4 +1,4 @@
-import { Divider, Fab, Grid, ListItem, Paper, styled } from '@mui/material';
+import { Divider, Grid, ListItem, Paper, styled } from '@mui/material';
 
 export const ListItemRoot = styled(ListItem)(({ theme }) => ({
   padding: '0 25px',
@@ -69,17 +69,4 @@ export const CustomDivider = styled(Divider)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     marginBottom: 0,
   }
-}));
-
-export const FabAdd = styled(Fab)(({ theme }) => ({
-  position: 'absolute',
-  top: 118,
-  right: 62,
-  [theme.breakpoints.down('sm')]: {
-    position: 'absolute',
-    top: 'unset',
-    left: 'unset',
-    bottom: 16,
-    right: 16,
-  },
 }));
