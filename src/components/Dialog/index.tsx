@@ -8,7 +8,6 @@ interface IDialogProps {
 }
 
 function Dialog({ open, text, dialogResponse }: IDialogProps) {
-  /* TODO: Complete Dialog */
   return (
     <DialogMui open={open}>
       <DialogTitle></DialogTitle>

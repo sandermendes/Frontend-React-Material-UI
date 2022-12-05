@@ -33,11 +33,7 @@ export const RootDiv = styled('div')(({ theme }) => ({
 export const MainGrid = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   width: '680px',
-  // [theme.breakpoints.up('xs')]: {
-  //   width: '480px',
-  // },
   [theme.breakpoints.down('xs')]: {
-    // display: 'block',
     minHeight: '100vh',
     WebkitFlexDirection: 'column',
     flexDirection: 'column',
