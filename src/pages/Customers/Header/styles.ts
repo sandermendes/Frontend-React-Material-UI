@@ -2,7 +2,7 @@ import { Fab, styled } from '@mui/material';
 
 export const FabAdd = styled(Fab)(({ theme }) => ({
   position: 'absolute',
-  top: 63,
+  top: 60,
   right: 100,
   [theme.breakpoints.down('sm')]: {
     top: 'unset',

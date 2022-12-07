@@ -36,15 +36,21 @@ function Customers() {
   useEffect(() => {
     if (!isLoadingCustomers) {
       setShowScreen(false);
+      setMarked([]);
+
       if (dataCustomers) {
         setTimeout(() => {
-          setMarked([]);
           setCustomers(dataCustomers);
+          setShowScreen(true);
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setCustomers(null);
           setShowScreen(true);
         }, 2000);
       }
     }
-  }, [isLoadingCustomers, dataCustomers]);
+  }, [dataCustomers]);
 
   const handleMarkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked)
